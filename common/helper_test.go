@@ -7,14 +7,43 @@
  */
 package common
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestJoinString(t *testing.T) {
-	var s []string = []string{"s", "b", "d"}
-	var end = JoinString(s)
+	var end = JoinString("s", "b", "d")
 	if end == "sbd" {
 		t.Log("TestJoinString Success")
 	} else {
 		t.Error("TestJoinString Error")
 	}
+}
+
+func TestStructConvertMap(t *testing.T) {
+	type testStruct struct {
+		A string `json:"a"`
+		B int    `json:"b"`
+		C string `json:"c"`
+	}
+	s := testStruct{
+		A: "test",
+		B: 123,
+		C: "test123",
+	}
+
+	target := map[string]interface{}{
+		"a": "test",
+		"b": 123,
+		"c": "test123",
+	}
+
+	result := StructConvertMap(s)
+	for key, value := range target {
+		if result[key] != value {
+			t.Error("TestStructConvertMap Error")
+			return
+		}
+	}
+	t.Log("TestStructConvertMap Success")
 }
