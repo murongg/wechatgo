@@ -1,3 +1,10 @@
+/**
+ * @Author: 木荣
+ * @Date: 2020/10/28 10:05 上午
+ * @File: http_client
+ * @Package: common
+ * @Description: http 封装
+ */
 package common
 
 import (
@@ -72,11 +79,11 @@ func GetUrlBuild(link string, data map[string]string) string {
 
 func (h *HttpSend) send(method string) ([]byte, error) {
 	var (
-		req       *http.Request
-		resp      *http.Response
-		client    http.Client
-		send_data string
-		err       error
+		req      *http.Request
+		resp     *http.Response
+		client   http.Client
+		sendData string
+		err      error
 	)
 
 	if len(h.Body) > 0 {
@@ -85,14 +92,14 @@ func (h *HttpSend) send(method string) ([]byte, error) {
 			if jsonErr != nil {
 				return nil, jsonErr
 			}
-			send_data = string(sendBody)
+			sendData = string(sendBody)
 		} else {
 			sendBody := http.Request{}
-			sendBody.ParseForm()
+			_ = sendBody.ParseForm()
 			for k, v := range h.Body {
 				sendBody.Form.Add(k, v)
 			}
-			send_data = sendBody.Form.Encode()
+			sendData = sendBody.Form.Encode()
 		}
 	}
 
@@ -101,7 +108,7 @@ func (h *HttpSend) send(method string) ([]byte, error) {
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 
-	req, err = http.NewRequest(method, h.Link, strings.NewReader(send_data))
+	req, err = http.NewRequest(method, h.Link, strings.NewReader(sendData))
 	if err != nil {
 		return nil, err
 	}

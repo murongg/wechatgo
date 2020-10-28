@@ -1,10 +1,17 @@
+/**
+ * @Author: 木荣
+ * @Date: 2020/10/28 10:10 上午
+ * @File: http_client_test
+ * @Package: common
+ * @Description: http 单元测试
+ */
 package common
 
 import (
 	"testing"
 )
 
-func Test_Get(t *testing.T) {
+func TestGet(t *testing.T) {
 	h := NewHttpSend(GetUrlBuild("http://www.baidu.com", map[string]string{"name": "xiaochuan"}))
 	_, err := h.Get()
 	if err != nil {
@@ -14,7 +21,7 @@ func Test_Get(t *testing.T) {
 	}
 }
 
-func Test_Post(t *testing.T) {
+func TestPost(t *testing.T) {
 	h := NewHttpSend("http://www.baidu.com")
 	h.SetBody(map[string]string{"name": "xiaochuan"})
 	_, err := h.Post()
@@ -25,7 +32,7 @@ func Test_Post(t *testing.T) {
 	}
 }
 
-func Test_Json(t *testing.T) {
+func TestJson(t *testing.T) {
 	h := NewHttpSend("http://www.baidu.com")
 	h.SetSendType("JSON")
 	h.SetBody(map[string]string{"name": "xiaochuan"})
@@ -37,7 +44,7 @@ func Test_Json(t *testing.T) {
 	}
 }
 
-func Benchmark_GET(b *testing.B) {
+func BenchmarkGET(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		h := NewHttpSend(GetUrlBuild("http://www.baidu.com", map[string]string{"name": "xiaochuan"}))
 		_, err := h.Get()
